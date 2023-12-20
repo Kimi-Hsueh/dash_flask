@@ -2,7 +2,6 @@ import requests
 import csv
 import json
 import pandas as pd
-import matplotlib.pyplot as plt
 
 #-----下載資料-----#
 url = "https://api.finmindtrade.com/api/v4/data"
