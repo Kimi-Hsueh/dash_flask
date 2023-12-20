@@ -2,7 +2,7 @@ import requests
 import csv
 import json
 import pandas as pd
-import matplotlib.pyplot as plt
+
 
 #-----raw data下載與整理-----#
 def down_load()->None:
