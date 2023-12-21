@@ -100,8 +100,8 @@ def update_output(n_clicks):
         with open('../mov1.csv','r',encoding='utf-8') as file:
             line = file.readlines()
             last_line=line[-1]
-            x='你看不到我'
-        return f'五日均價計算={last_line}',f'二十日均價計算={x}'
+            x='付費後解鎖功能XD'
+        return f'五日均價計算={last_line}','    ',f'二十日均價計算={x}'
     
 
 
