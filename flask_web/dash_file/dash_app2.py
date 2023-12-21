@@ -1,22 +1,28 @@
-from dash import Dash, html,dash_table,dcc
+from dash import Dash, html, dash_table, dcc, callback,Input, Output
 import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
 from .assets import function
 import pandas as pd
 import plotly.graph_objects as go
+from .assets import dash_function
+import csv
 
 
 #-----指定網頁路徑的名稱及套用dash_bootstrap_components設定-----#
 dash2 = Dash(requests_pathname_prefix="/dash/app2/",external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #-----頁籤的命名-----#   
-dash2.title='DASH的示範網頁'
+dash2.title = '股價查詢網頁'
 
 #-----導入資料來源-----#
 #-----表格資料-----#
 df = pd.read_csv('../select_col.csv')
 #df.columns =['股票代號','交易日','開盤價','收盤價','最高價','最低價','漲跌(元)','成交股數']
+df2=pd.read_csv('../mov.csv')
+
+
+
 #-----產生K棒圖資料-----#
 df2 = pd.read_csv("../stock.csv")
 k_candle = go.Figure(data=[go.Candlestick(x=df2['date'],
@@ -62,6 +68,10 @@ dash2.layout = html.Div(
             className="row",
             style={"paddingTop":'2rem'}),
             html.Div([
+                html.Button('查詢各日均價', id='show-secret'),
+                html.H2(id='body-div',style={'color': '#E83015'})
+            ]),
+            html.Div([
                 html.H1('價格走勢圖'),
                 dcc.Graph(figure=k_candle)
             ]),
@@ -79,3 +89,20 @@ dash2.layout = html.Div(
     )
 
 
+@callback(
+    Output('body-div', 'children'),
+    Input('show-secret', 'n_clicks')
+)
+def update_output(n_clicks):
+    if n_clicks is None:
+        print('done')
+    else:
+        with open('../mov1.csv','r',encoding='utf-8') as file:
+            line = file.readlines()
+            last_line=line[-1]
+            x='你看不到我'
+        return f'五日均價計算={last_line}',f'二十日均價計算={x}'
+    
+
+
+    
